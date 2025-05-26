@@ -1,0 +1,225 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+  <base target="_top">
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/jqueryui/1.12.1/jquery-ui.min.js"></script>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/4.6.1/css/bootstrap.min.css" />
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+  <!-- Add icon library -->
+
+  <style>
+    .hidden {
+      display: none;
+    }
+
+    .loader {
+      height: 80px;
+      aspect-ratio: 2;
+      border-bottom: 3px solid #0000;
+      background:
+        linear-gradient(90deg, #0000 40%, #524656 0) 25% 100%/50% 3px repeat-x border-box;
+      position: relative;
+      animation: l3-0 .75s linear infinite;
+    }
+
+    .loader:before {
+      content: "🦘";
+      position: absolute;
+      inset: auto 42.5% 0;
+      aspect-ratio: 1;
+      border-radius: 50%;
+
+      animation: l3-1 .75s cubic-bezier(0, 900, 1, 250) infinite;
+    }
+
+    @keyframes l3-0 {
+      to {
+        background-position: 125% 100%
+      }
+    }
+
+    @keyframes l3-1 {
+
+      0%,
+      2% {
+        bottom: 0%
+      }
+
+      98%,
+      to {
+        bottom: .1%
+      }
+    }
+
+    /* Style buttons */
+    .buttonload {
+      background-color: #04AA6D;
+      /* Green background */
+      border: none;
+      /* Remove borders */
+      color: white;
+      /* White text */
+      padding: 12px 16px;
+      /* Some padding */
+      font-size: 16px
+        /* Set a font size */
+    }
+
+    .ui-autocomplete {
+      position: absolute;
+      top: 100%;
+      left: 0;
+      z-index: 1000;
+      display: none;
+      float: left;
+      min-width: 160px;
+      padding: 5px 0;
+      margin: 2px 0 0;
+      list-style: none;
+      font-size: 14px;
+      text-align: left;
+      background-color: #ffffff;
+      border: 1px solid #cccccc;
+      border: 1px solid rgba(0, 0, 0, 0.15);
+      border-radius: 4px;
+      -webkit-box-shadow: 0 6px 12px rgba(0, 0, 0, 0.175);
+      box-shadow: 0 6px 12px rgba(0, 0, 0, 0.175);
+      background-clip: padding-box;
+    }
+
+    .ui-autocomplete>li>div {
+      display: block;
+      padding: 3px 20px;
+      clear: both;
+      font-weight: normal;
+      line-height: 1.42857143;
+      color: #333333;
+      white-space: nowrap;
+    }
+
+    .ui-state-hover,
+    .ui-state-active,
+    .ui-state-focus {
+      text-decoration: none;
+      color: #262626;
+      background-color: #f5f5f5;
+      cursor: pointer;
+    }
+
+    .ui-helper-hidden-accessible {
+      border: 0;
+      clip: rect(0 0 0 0);
+      height: 1px;
+      margin: -1px;
+      overflow: hidden;
+      padding: 0;
+      position: absolute;
+      width: 1px;
+    }
+    html, body {
+    height: auto;
+    min-height: 100vh; /* Ensures the page is at least the full viewport height */
+    overflow: hidden; /* Prevents unnecessary scrollbars */
+}
+
+#Sheet {
+    position: relative;
+    max-height: 80vh; /* Limits height */
+    overflow-y: auto; /* Enables scrolling inside input */
+}
+
+  </style>
+  <script>
+    var sheetNames = JSON.parse('<?= sheetsnamedata ?>');  
+    function getsheets()
+    { var sheetsnamesArray = [];
+    sheetNames.forEach(function(item, index) {
+    sheetsnamesArray.push(item);
+    });
+    
+    $("#Sheet").autocomplete({
+    source: sheetsnamesArray
+    });
+     
+      }
+
+        $(document).ready(function() {
+          console.log('📃>>> ', <?= sheetsnamedata ?>);
+          getsheets();
+    });
+    function Jump(){
+      
+      var Sheetname = document.getElementById("Sheet").value;
+      
+        if (sheetNames.includes(Sheetname)) {
+          console.log("✔ Sheetname found.");
+          document.getElementById("main").style.display = "none"; // Hide main content
+          document.getElementById("loader").style.display = "block"; // Show loader
+           google.script.run.withSuccessHandler(closeModal).Jumpsheet(Sheetname);
+        } else {
+        console.log("❌ Sheetname not found.");
+        alert("Enter correct sheet name");
+        }
+                
+      }
+   function closeModal() {
+    google.script.host.close(); 
+  }
+  </script>
+</head>
+
+<body>
+  <div id="sheetsnamedata" style="display: none;">
+    <?= sheetsnamedata ?>
+  </div>
+<div id="main">
+  <form>
+    <div style="padding: 10px; display: flex; flex-direction: column; align-items: center;">
+      <div class="form-row">
+        <br>
+        <div>
+          <input type="text" id="Sheet" class="form-control" style="margin-bottom: 10px;" />
+        </div>
+      </div>
+
+      <div class="form-row">
+        <div class="form-group col-md-3" style="padding: 10px; text-align: center;">
+          <input type="button" value="Jump" class="btn btn-primary spinner-button" onclick="Jump()" tabindex="0" accesskey="J" id="submitButton">
+        </div>
+      </div>
+    </div>
+  </form>
+</div>
+
+  <div id="loader" class="loader hidden">
+  </div>
+  <center>
+    <script>
+google.script.host.editor.focus();
+document.getElementById("Sheet").focus();
+
+document.getElementById("Sheet").addEventListener("input", function() {
+    if (this.value == '') {  
+        google.script.host.setHeight(160);
+        console.log('reset window size');
+    }
+});
+
+$("#Sheet").on("autocompleteopen", function() {
+    let dropdownHeight = $(".ui-autocomplete").outerHeight();
+    console.log("Autocomplete dropdown height: " + dropdownHeight + "px");
+    dropdownHeight = dropdownHeight + 110;
+    google.script.host.setHeight(dropdownHeight);
+});
+</script>
+<footer>
+  <a href="mailto:jaleel1618@gmail.com" style="color: grey; text-decoration: none; font-size: small;">
+    Abdul jaleel Adenpulan
+  </a>
+</footer>
+
+</body>
+
+</html>
