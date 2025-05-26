@@ -1,0 +1,29 @@
+Privacy Policy for Kangaroo Sheet Jump
+This Privacy Policy describes how the "Kangaroo Sheet Jump" Google Apps Script ("the Script") handles your data. The Script is designed to help you quickly navigate between sheets within your Google Spreadsheet.
+
+1. Data Collection
+The Kangaroo Sheet Jump Script does not collect, store, or transmit any personal data from your Google account or your spreadsheet content outside of your Google environment.
+
+The Script operates entirely within your Google Spreadsheet and utilizes Google's built-in services:
+
+SpreadsheetApp: To read the names of the sheets in your active spreadsheet and to change the active sheet.
+PropertiesService: To temporarily store the list of sheet names within your script's properties. This data is stored on Google's servers, associated with your script, and is not accessible by the script developer or any third parties. It is used solely to provide the sheet name suggestions for quick navigation.
+HtmlService: To display the user interface (the "Kangaroo Sheet Jump" dialog) within your Google Spreadsheet.
+2. How Your Data is Used
+The Script uses the sheet names it retrieves for the following purposes:
+
+To populate the autocomplete suggestions in the "Kangaroo Sheet Jump" dialog, allowing you to easily find and select a sheet.
+To verify that the sheet name you entered exists in the spreadsheet before attempting to jump to it.
+The sheet names are stored in PropertiesService to improve performance, so the script doesn't have to fetch all sheet names every time you open the dialog.
+
+3. Data Sharing
+No data collected or processed by this Script is shared with the script developer or any third parties. All operations occur within your Google account and Google's infrastructure.
+
+4. Data Security
+Your data (specifically, your spreadsheet's sheet names) is handled by Google's secure infrastructure when processed by this Google Apps Script. The Script adheres to the security standards provided by Google Apps Script services.
+
+5. Changes to This Privacy Policy
+This Privacy Policy may be updated from time to time. Any changes will be reflected directly in the script's code and will apply to your continued use of the Kangaroo Sheet Jump Script. Your continued use after any changes indicates your acceptance of the updated policy.
+
+6. Contact Us
+If you have any questions about this Privacy Policy or the Kangaroo Sheet Jump Script, please contact the developer at a.jaleel.kondotty@gmail.com.
