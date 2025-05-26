@@ -1,4 +1,4 @@
-# Kangaroo Jump
+# 🦘Kangaroo Sheet Jump
 
 Effortlessly navigate large Google Sheets with **Kangaroo Jump**, a handy add-on that lets users quickly jump to specific sheets without scrolling endlessly.
 
